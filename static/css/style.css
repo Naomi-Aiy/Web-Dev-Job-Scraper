@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* --- Root Variables for easy color changes --- */
+:root {
+    --primary-color: #007bff; /* Bright Blue/Teal for contrast */
+    --secondary-color: #007bff; /* Deeper Navy for primary text */
+    --background-light: #f4f7fa;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Global & Typography --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-light);
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* --- Hero Section Styling --- */
+.hero {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    font-weight: 400;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- Main Content Section --- */
+.job-listing-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+}
+
+.job-listing-section h2 {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* --- Job Container (Grid Layout) --- */
+#jobs-container {
+    /* Three-column grid for smaller, compact cards */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* --- Individual Job Card (Smaller & Compact) --- */
+.job {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex; /* Flex layout for internal elements */
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px; /* Ensure a consistent minimum height */
+}
+
+.job:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.job h3 {
+    font-size: 1.4rem; 
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.job p {
+    margin: 2px 0; 
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.job strong {
+    color: #333;
+    font-weight: 600;
+}
+
+/* --- Job Card Footer (Salary Tag and Button) --- */
+.job-details-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.salary-tag {
+    background-color: #e0f7e0;
+    color: #28a745;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.apply-button {
+    text-decoration: none;
+    color: white;
+    background-color: var(--primary-color);
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.apply-button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Filters Bar Styling --- */
+.filters-bar {
+    display: flex;
+    justify-content: flex-end; /* Align filter to the right */
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.filters-bar label {
+    font-weight: 600;
+    margin-right: 10px;
+    color: var(--secondary-color);
+}
+
+.filters-bar select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    /* Clean up the default select box appearance */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%20197.35L146.2%2056.62%205.4%20197.35z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    padding-right: 30px; /* Space for the custom arrow */
+}
+
+.filters-bar select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+/* --- Responsive adjustment for filter bar --- */
+@media (max-width: 600px) {
+    .filters-bar {
+        justify-content: space-between;
+        padding: 10px 15px; /* Add padding when viewport is small */
+    }
+}
+
+/* --- Responsive adjustments --- */
+@media (max-width: 992px) {
+    #jobs-container {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .hero {
+        padding: 40px 15px;
+    }
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    .job-listing-section {
+        padding: 0 15px 30px;
+    }
+    /* Cards stack on small screens */
+    #jobs-container {
+        grid-template-columns: 1fr;
+    }
+}

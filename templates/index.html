@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Development Internships</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Find Your Next Web Development Opportunity</h1>
+            <p>Explore the latest and greatest internships and jobs in front-end, back-end, and full-stack development.</p>
+        </div>
+    </header>
+
+    <main class="job-listing-section">
+        <h2>Latest Job Listings</h2>
+        <div id="jobs-container">
+            </div>
+    </main>
+
+    <script>
+        // (Your existing JavaScript loadJobs function remains the same, but it's important 
+        // that the job data is structured correctly as before.)
+        async function loadJobs() {
+            try {
+                const response = await fetch('/jobs');
+                const jobs = await response.json();
+                const container = document.getElementById('jobs-container');
+                container.innerHTML = '';
+
+                jobs.forEach(job => {
+                    const div = document.createElement('div');
+                    div.className = 'job';
+                    div.innerHTML = `
+                        <h3>${job.job_name}</h3>
+                        <p><strong>Company:</strong> ${job.company_name}</p>
+                        <p><strong>Location:</strong> ${job.location}</p>
+                        <div class="job-details-footer">
+                            <span class="salary-tag">${job.salary}</span>
+                            <a href="${job.url}" target="_blank" class="apply-button">Apply Now</a>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (error) {
+                console.error('Error loading jobs:', error);
+                document.getElementById('jobs-container').innerHTML = '<p class="error-message">Failed to load jobs. Try again later.</p>';
+            }
+        }
+
+        loadJobs();
+    </script>
+</body>
+</html>
