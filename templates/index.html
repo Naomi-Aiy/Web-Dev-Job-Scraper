@@ -1,58 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Development Internships</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Development Internships</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="icon" type="image/svg+xml"
+href="data:image/svg+xml,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+  <rect width='100' height='100' rx='20' fill='%23007bff'/>
+  <text x='50' y='62' font-size='55' text-anchor='middle' dominant-baseline='middle'>💼</text>
+</svg>">
+
 </head>
 <body>
-    
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Find Your Next Web Development Opportunity</h1>
-            <p>Explore the latest and greatest internships and jobs in front-end, back-end, and full-stack development.</p>
-        </div>
-    </header>
 
-    <main class="job-listing-section">
-        <h2>Latest Job Listings</h2>
-        <div id="jobs-container">
+<header class="hero">
+    <div class="hero-content">
+        <h1>Find Your Next Web Development Opportunity</h1>
+        <p>Explore the latest and greatest internships and jobs in front-end, back-end, and full-stack development.</p>
+    </div>
+</header>
+
+<main class="job-listing-section">
+    <h2>Latest Job Listings</h2>
+
+    <div class="filters-bar">
+        <label for="salarySort">Salary:</label>
+        <select id="salarySort">
+            <option value="">--Select--</option>
+            <option value="low">Low to High</option>
+            <option value="high">High to Low</option>
+        </select>
+
+        <label for="dateSort" style="margin-left:15px;">Date Posted:</label>
+        <select id="dateSort">
+            <option value="">--Select--</option>
+            <option value="newest">Newest to Oldest</option>
+            <option value="oldest">Oldest to Newest</option>
+        </select>
+    </div>
+
+    <div id="jobs-container"></div>
+</main>
+
+<script>
+let allJobs = [];
+
+async function loadJobs() {
+    try {
+        const response = await fetch('/jobs');
+        allJobs = await response.json();
+        renderJobs(allJobs);
+    } catch (error) {
+        console.error('Error loading jobs:', error);
+        document.getElementById('jobs-container').innerHTML = '<p class="error-message">Failed to load jobs. Try again later.</p>';
+    }
+}
+
+function parseSalary(salaryStr) {
+    if (!salaryStr || salaryStr.toLowerCase() === 'n/a') return 0;
+    const match = salaryStr.replace(/[\$,]/g, '').match(/\d+(\.\d+)?/);
+    return match ? parseFloat(match[0]) : 0;
+}
+function parseDate(dateStr) {
+    const d = new Date(dateStr);
+    return isNaN(d) ? new Date(0) : d;
+}
+
+
+function renderJobs(jobs) {
+    const container = document.getElementById('jobs-container');
+    container.innerHTML = '';
+
+    jobs.forEach(job => {
+        const div = document.createElement('div');
+        div.className = 'job';
+        div.innerHTML = `
+            <h3>${job.job_name}</h3>
+            <p><strong>Company:</strong> ${job.company_name}</p>
+            <p><strong>Location:</strong> ${job.location}</p>
+            <p><strong>Date Posted:</strong> ${job.date_posted}</p>
+            <div class="job-details-footer">
+                <span class="salary-tag">${job.salary}</span>
+                <a href="${job.url}" target="_blank" class="apply-button">Apply Now</a>
             </div>
-    </main>
+        `;
+        container.appendChild(div);
+    });
+}
 
-    <script>
-        // (Your existing JavaScript loadJobs function remains the same, but it's important 
-        // that the job data is structured correctly as before.)
-        async function loadJobs() {
-            try {
-                const response = await fetch('/jobs');
-                const jobs = await response.json();
-                const container = document.getElementById('jobs-container');
-                container.innerHTML = '';
+// Sorting logic
+document.getElementById('salarySort').addEventListener('change', () => {
+    const val = document.getElementById('salarySort').value;
+    let sortedJobs = [...allJobs];
+    if(val === 'low') sortedJobs.sort((a,b) => parseSalary(a.salary) - parseSalary(b.salary));
+    else if(val === 'high') sortedJobs.sort((a,b) => parseSalary(b.salary) - parseSalary(a.salary));
+    renderJobs(sortedJobs);
+});
 
-                jobs.forEach(job => {
-                    const div = document.createElement('div');
-                    div.className = 'job';
-                    div.innerHTML = `
-                        <h3>${job.job_name}</h3>
-                        <p><strong>Company:</strong> ${job.company_name}</p>
-                        <p><strong>Location:</strong> ${job.location}</p>
-                        <div class="job-details-footer">
-                            <span class="salary-tag">${job.salary}</span>
-                            <a href="${job.url}" target="_blank" class="apply-button">Apply Now</a>
-                        </div>
-                    `;
-                    container.appendChild(div);
-                });
-            } catch (error) {
-                console.error('Error loading jobs:', error);
-                document.getElementById('jobs-container').innerHTML = '<p class="error-message">Failed to load jobs. Try again later.</p>';
-            }
-        }
+document.getElementById('dateSort').addEventListener('change', () => {
+    const val = document.getElementById('dateSort').value;
+    let sortedJobs = [...allJobs];
+    if(val === 'newest') sortedJobs.sort((a,b) => parseDate(b.date_posted) - parseDate(a.date_posted));
+    else if(val === 'oldest') sortedJobs.sort((a,b) => parseDate(a.date_posted) - parseDate(b.date_posted));
+    renderJobs(sortedJobs);
+});
 
-        loadJobs();
-    </script>
+loadJobs();
+</script>
+
 </body>
 </html>

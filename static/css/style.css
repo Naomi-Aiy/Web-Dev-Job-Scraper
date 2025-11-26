@@ -1,14 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-/* --- Root Variables for easy color changes --- */
 :root {
-    --primary-color: #007bff; /* Bright Blue/Teal for contrast */
-    --secondary-color: #007bff; /* Deeper Navy for primary text */
+    --primary-color: #007bff;
+    --secondary-color: #007bff;
     --background-light: #f4f7fa;
     --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* --- Global & Typography --- */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--background-light);
@@ -18,7 +16,7 @@ body {
     line-height: 1.6;
 }
 
-/* --- Hero Section Styling --- */
+/* hero */
 .hero {
     background-color: var(--secondary-color);
     color: white;
@@ -42,7 +40,7 @@ body {
     margin: 0 auto;
 }
 
-/* --- Main Content Section --- */
+/* main */
 .job-listing-section {
     max-width: 1200px;
     margin: 0 auto;
@@ -58,25 +56,61 @@ body {
     font-weight: 600;
 }
 
-/* --- Job Container (Grid Layout) --- */
+/* filters*/
+.filters-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.filters-bar label {
+    font-weight: 600;
+    margin-right: 10px;
+    color: var(--secondary-color);
+}
+
+.filters-bar select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M5.4%2095.05L146.2%20235.78%20287%2095.05z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    padding-right: 30px;
+}
+
+.filters-bar select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+/* job container */
 #jobs-container {
-    /* Three-column grid for smaller, compact cards */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 25px;
 }
 
-/* --- Individual Job Card (Smaller & Compact) --- */
+/* job card*/
 .job {
     background-color: white;
     border-radius: 8px;
     box-shadow: var(--card-shadow);
     padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex; /* Flex layout for internal elements */
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 200px; /* Ensure a consistent minimum height */
+    min-height: 200px;
 }
 
 .job:hover {
@@ -103,7 +137,6 @@ body {
     font-weight: 600;
 }
 
-/* --- Job Card Footer (Salary Tag and Button) --- */
 .job-details-footer {
     display: flex;
     justify-content: space-between;
@@ -136,55 +169,7 @@ body {
     background-color: #0056b3;
 }
 
-/* --- Filters Bar Styling --- */
-.filters-bar {
-    display: flex;
-    justify-content: flex-end; /* Align filter to the right */
-    align-items: center;
-    padding: 10px 0;
-    margin-bottom: 20px;
-}
-
-.filters-bar label {
-    font-weight: 600;
-    margin-right: 10px;
-    color: var(--secondary-color);
-}
-
-.filters-bar select {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: white;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.95rem;
-    cursor: pointer;
-    /* Clean up the default select box appearance */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%20197.35L146.2%2056.62%205.4%20197.35z%22%2F%3E%3C%2Fsvg%3E');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px;
-    padding-right: 30px; /* Space for the custom arrow */
-}
-
-.filters-bar select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
-}
-
-/* --- Responsive adjustment for filter bar --- */
-@media (max-width: 600px) {
-    .filters-bar {
-        justify-content: space-between;
-        padding: 10px 15px; /* Add padding when viewport is small */
-    }
-}
-
-/* --- Responsive adjustments --- */
+/* responsive */
 @media (max-width: 992px) {
     #jobs-container {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -201,8 +186,11 @@ body {
     .job-listing-section {
         padding: 0 15px 30px;
     }
-    /* Cards stack on small screens */
     #jobs-container {
         grid-template-columns: 1fr;
+    }
+    .filters-bar {
+        justify-content: space-between;
+        padding: 10px 15px;
     }
 }
