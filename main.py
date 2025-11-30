@@ -16,7 +16,11 @@ def scrape_workopolis():
     # selenium stuff
     # Set up Chrome options 
     options = Options()
-    options.headless = True  # run in background without opening browser
+    options.add_argument("--headless=new")   # modern headless mode
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
     # initializing driver 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     
